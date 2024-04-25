@@ -14,13 +14,26 @@ class connexionController extends Controller
         $login = $request['login'];
         $mdp = $request['mdp'];
         $visiteur = PdoGsb::getInfosVisiteur($login,$mdp);
-        if(!is_array($visiteur)){
+        $gestionnaire = PdoGsb::getInfosGestionnaire($login,$mdp);
+        $profilGest = "Profil Gestionnaire est actif.";
+        if (!is_array($visiteur) /*&& !is_array($gestionnaire)*/) {
             $erreurs[] = "Login ou mot de passe incorrect(s)";
-            return view('connexion')->with('erreurs',$erreurs);
-        }
+            return view('connexion')->with('erreurs', $erreurs);
+        }        
         else{
-            session(['visiteur' => $visiteur]);
-            return view('sommaire')->with('visiteur',session('visiteur'));
+            // if(is_array($visiteur))
+            // {
+                session(['visiteur' => $visiteur]);
+                return view('sommaire')->with('visiteur',session('visiteur'));
+                                        // ->with('profilGest', null);
+            // }
+            // else if(is_array($gestionnaire))
+            // {
+            //     session(['gestionnaire' => $gestionnaire]);
+            //     return view('sommaire')->with('gestionnaire',session('gestionnaire'))
+            //                            ->with('profilGest',$profilGest)
+            //                            ->with('visiteur', null);
+            // }
         }
     } 
     function deconnecter(){

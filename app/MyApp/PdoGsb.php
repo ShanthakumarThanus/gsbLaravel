@@ -43,6 +43,21 @@ class PdoGsb{
 		return $ligne;
 	}
 
+/**
+ * Retourne les informations d'un gestionnaire
+ 
+ * @param $log 
+ * @param $md
+ * @return lid, le nom et le prénom sous la forme d'un tableau associatif 
+*/
+public function getInfosGestionnaire($login, $mdp){
+	$req = "select gestionnaire.id as id, gestionnaire.nom as nom, gestionnaire.prenom as prenom from gestionnaire 
+	where gestionnaire.login='" . $login . "' and gestionnaire.mdp='" . $mdp ."'";
+	$rs = $this->monPdo->query($req);
+	$ligne = $rs->fetch();
+	return $ligne;
+}
+
 
 
 /**
